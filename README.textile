@@ -1,0 +1,35 @@
+h2. Topic Author Highlighter
+
+На Хабрахабре подсвечивает комментарии автора топика.
+
+Пришлось сделать форк от популярного скрипта "Highlight Topic Author Comments":http://userscripts.org/scripts/show/29991 by TiGR, так как он перестал обновляться и теперь не работает на страницах с новой структурой URL для топиков.
+
+Для установки в Google Chrome используйте "TamperMonkey":https://chrome.google.com/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en-US (аналог Greasemonkey). 
+
+h3. Changelog
+
+v2.0.0 (14.09.12)
+- (Opera) fixed: иногда скрипт крашится из-за того, что $ еще не определен на момент исполнения скрипта (сообщение от хабраюзера CaptainFlint)
+- fixed: скрипт не срабатывал, если около имени автора топика есть ссылка G+
+- changed: цвет подсветки изменен на менее насыщен (замечание от CaptainFlint)
+- код сильно изменен, из-за чего увеличена мажорная версия
+
+v1.0.1 (14.04.12)
+- добавлена поддержка Opera
+	
+v1.0 (18.03.12)
+- public release
+
+!//api.flattr.com/button/button-static-50x60.png(Flattr this)!:https://flattr.com/thing/628517/Habrahabr-Topic-Author-Highlighter
+
+<br>
+
+
+h2. Больше
+
+h4. Мои userscripts:
+
+# Волшебный скрипт "Answer to...":http://userscripts.org/scripts/show/60674 — на Хабрахабре даёт возможность увидеть текст комментария, на который отвечает данный коммент, без лишних движений с переходами, и без скроллинга.
+# "FixedHider":http://userscripts.org/scripts/show/54099 — на Хабе, при скроллинге прячет боковую панельку с position:fixed (в Firefox её наличие ухудшает плавность перерисовки страницы при скроллинге).
+
+Author: Yuriy Babak /// Inversion ("http://inversion.habrahabr.ru":http://inversion.habrahabr.ru/). Send feedback to "yura.des@gmail.com":mailto:yura.des@gmail.com
