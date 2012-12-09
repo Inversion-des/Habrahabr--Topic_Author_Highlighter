@@ -4,7 +4,7 @@
 
 // ==UserScript==
 // @name         Topic Author Highlighter
-// @version      2.0.1
+// @version      2.0.1.2
 // @namespace    Habrahabr
 // @description  Подсвечивает комментарии автора топика
 // @include      http://habrahabr.ru/*
@@ -35,47 +35,47 @@ v1.0 (18.03.12)
 	if (window != window.top) return
 	var doc = win.document
 	
+	// on ready
+	var f_on_ready_done = false
+	function on_ready($) {
+		if (f_on_ready_done) return false
+		f_on_ready_done = true
+		
+		// comments present on page
+		if ($('#comments')[0]) {
+			$('<style>\
+				.info.topic_author {background-color:#FFEFEF} \
+				.info.topic_author.is_new {background-color:#efd9ef !important} \
+			</style>').appendTo('head')
+			
+			var authorName = $('.infopanel .author a:first, div.vcard .nickname span').text()
+			
+			$('#comments div.info .username, #comments ul.info .username a').each(function(){
+				var uName = $(this)
+				if (uName.text() == authorName) {
+					uName.parent('.info').addClass('topic_author')
+					uName.parents('ul.info:first').addClass('topic_author')
+				}
+			})
+		}	// comments present on page
+	}   // on_ready
+	
 	// waiting for jQuery
 	var t_waiting_for_jQuery = setInterval(function() {
 		if (win.jQuery) {
 			clearInterval(t_waiting_for_jQuery)
 			var $ = win.jQuery
-
-			// on ready
-			var f_on_ready_done = false
-			function on_ready() {
-				if (f_on_ready_done) return false
-				f_on_ready_done = true
-				
-				// comments present on page
-				if ($('#comments')[0]) {
-					$('<style>\
-						.info.topic_author {background-color:#FFEFEF} \
-						.info.topic_author.is_new {background-color:#efd9ef !important} \
-					</style>').appendTo('head')
-					
-					var authorName = $('.infopanel .author a:first, div.vcard .nickname span').text()
-					
-					$('#comments div.info .username, #comments ul.info .username a').each(function(){
-						var uName = $(this)
-						if (uName.text() == authorName) {
-							uName.parent('.info').addClass('topic_author')
-							uName.parents('ul.info:first').addClass('topic_author')
-						}
-					})
-				}	// comments present on page
-			}   // on_ready
 			
 			if ($('#comments_form').length>0) {
-				on_ready()
+				on_ready($)
 			}
 			else {
 				$(doc).ready(function() {
-					on_ready()
+					on_ready($)
 				})
 			}
 			
 		} // if (win.jQuery)
 	}, 50) // setInterval
 	    
-}(unsafeWindow || window)
+}(typeof unsafeWindow == 'undefined' ? window : unsafeWindow)
