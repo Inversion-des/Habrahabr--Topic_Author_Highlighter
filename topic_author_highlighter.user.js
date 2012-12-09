@@ -4,13 +4,16 @@
 
 // ==UserScript==
 // @name         Topic Author Highlighter
-// @version      2.0.0
+// @version      2.0.1
 // @namespace    Habrahabr
 // @description  Подсвечивает комментарии автора топика
 // @include      http://habrahabr.ru/*
 // ==/UserScript==
 
 /* --------------------------------------------------------------------------------
+
+v2.0.1 (09.12.12)
+- fixed: подсветка не срабатывала на некоторых страницах
 
 v2.0.0 (14.09.12)
 - (Opera) fixed: иногда скрипт крашится из-за того, что $ еще не определен на момент исполнения скрипта (сообщение от хабраюзера CaptainFlint)
@@ -39,11 +42,13 @@ v1.0 (18.03.12)
 			var $ = win.jQuery
 
 			// on ready
-			$(function(){
-			
+			var f_on_ready_done = false
+			function on_ready() {
+				if (f_on_ready_done) return false
+				f_on_ready_done = true
+				
 				// comments present on page
 				if ($('#comments')[0]) {
-				
 					$('<style>\
 						.info.topic_author {background-color:#FFEFEF} \
 						.info.topic_author.is_new {background-color:#efd9ef !important} \
@@ -59,8 +64,17 @@ v1.0 (18.03.12)
 						}
 					})
 				}	// comments present on page
+			}   // on_ready
 			
-			})	// on ready
+			if ($('#comments_form').length>0) {
+				on_ready()
+			}
+			else {
+				$(doc).ready(function() {
+					on_ready()
+				})
+			}
+			
 		} // if (win.jQuery)
 	}, 50) // setInterval
 	    
